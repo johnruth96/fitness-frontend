@@ -36,9 +36,9 @@ const WorkoutDetailView = ({object}: WorkoutDetailViewProps) => {
             updateUrl={reverseWorkoutUpdate(object)}
             deleteModel={{model: 'Workout', id: object.id}}
         >
-            <Property label={'Name'} value={object.name}/>
+            <Property label={'Aktivtät'} value={object.activity_str}/>
 
-            <Property label={'Sportart'} value={object.discipline_str}/>
+            <Property label={'Name'} value={object.name}/>
 
             <Property
                 label={'Datum'}

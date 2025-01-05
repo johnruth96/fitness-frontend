@@ -1,10 +1,10 @@
 import React from 'react'
-import {useGetDisciplinesQuery} from "../app/api";
+import {useGetActivitiesQuery} from "../app/api";
 import {SelectGroupInput, SelectGroupInputProps} from "./SelectGroupInput";
 
 
 export default (props: Omit<SelectGroupInputProps, 'data'>) => {
-    const {data, isLoading} = useGetDisciplinesQuery()
+    const {data, isLoading} = useGetActivitiesQuery()
 
     if (data) {
         return <SelectGroupInput data={data} {...props}/>

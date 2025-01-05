@@ -20,7 +20,7 @@ export interface DjangoRestFrameworkError {
 
 export type APIError = FetchBaseQueryError | (SerializedError & { data: DjangoRestFrameworkError }) | DjangoFormError
 
-export interface Discipline {
+export interface Activity {
     id: number
     name: string
 }
@@ -64,11 +64,11 @@ export interface Workout {
 
     date_created: string
 
-    discipline: Discipline['id']
+    activity: Activity['id']
     conditions: Condition['id'][]
     muscle_groups: Condition['id'][]
 
-    discipline_str: string
+    activity_str: string
     conditions_str: string[]
     muscle_groups_str: string[]
 }

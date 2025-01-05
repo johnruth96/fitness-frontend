@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {API_BASE} from "./config";
-import {Condition, Discipline, ListResponse, MuscleGroup, Workout} from "./types";
+import {Condition, Activity, ListResponse, MuscleGroup, Workout} from "./types";
 import {getAccessToken} from '../auth/token';
 
 
@@ -17,7 +17,7 @@ export const fitnessApi = createApi({
 
         },
     }),
-    tagTypes: ["Workout", "Condition", "MuscleGroup", "Discipline"],
+    tagTypes: ["Workout", "Condition", "MuscleGroup", "Activity"],
     endpoints: (builder) => ({
         getWorkouts: builder.query<
             ListResponse<Workout>,
@@ -61,9 +61,9 @@ export const fitnessApi = createApi({
             }),
             invalidatesTags: [{type: "Workout", id: "LIST"}],
         }),
-        getDisciplines: builder.query<Discipline[], void>({
-            query: (id) => `disciplines/`,
-            providesTags: [{type: "Discipline", id: 'LIST'}],
+        getActivities: builder.query<Activity[], void>({
+            query: (id) => `activities/`,
+            providesTags: [{type: "Activity", id: 'LIST'}],
         }),
         getConditions: builder.query<Condition[], void>({
             query: (id) => `conditions/`,
@@ -81,7 +81,7 @@ export const {
     useGetWorkoutQuery,
     useGetWorkoutsQuery,
     useCreateWorkoutMutation,
-    useGetDisciplinesQuery,
+    useGetActivitiesQuery,
     useGetConditionsQuery,
     useGetMuscleGroupsQuery,
 } = fitnessApi

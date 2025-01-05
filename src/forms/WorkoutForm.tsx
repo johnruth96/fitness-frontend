@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Workout} from '../app/types'
-import DisciplineInput from './DisciplineInput'
+import ActivityInput from './ActivityInput'
 import MuscleGroupInput from './MuscleGroupInput'
 import ConditionInput from './ConditionInput'
 import dayjs from 'dayjs'
@@ -36,7 +36,7 @@ export default ({
     const [notes, setNotes] = useState('')
     const [distance, setDistance] = useState<string>('')
     const [duration, setDuration] = useState<dayjs.Dayjs | null>(null)
-    const [discipline, setDiscipline] = useState('')
+    const [activity, setActivity] = useState('')
     const [muscleGroups, setMuscleGroups] = useState<string[]>([])
     const [conditions, setConditions] = useState<string[]>([])
 
@@ -53,7 +53,7 @@ export default ({
         setApp(initial.app)
         setUrl(initial.url)
         setNotes(initial.notes)
-        setDiscipline(initial.discipline.toString())
+        setActivity(initial.activity.toString())
     }
 
     /*
@@ -77,24 +77,24 @@ export default ({
             distance: distance !== '' ? parseFloat(distance) : null,
             duration: duration?.format('HH:mm'),
             date: dateTime?.format('DD.MM.YYYY, HH:mm'),
-            discipline: discipline === '' ? null : parseInt(discipline),
+            activity: activity === '' ? null : parseInt(activity),
             muscle_groups: muscleGroups.map((id) => parseInt(id)),
             conditions: conditions.map((id) => parseInt(id)),
         } as Partial<Workout>)
 
     return (
         <Box>
+            <ActivityInput
+                value={activity}
+                onChange={setActivity}
+                label={'Aktivität'}
+                allowEmpty
+            />
+
             <TextField
                 value={name}
                 onChange={(evt) => setName(evt.target.value)}
-                label={'Name'}
-            />
-
-            <DisciplineInput
-                value={discipline}
-                onChange={setDiscipline}
-                label={'Sportart'}
-                allowEmpty
+                label={'Name (optional)'}
             />
 
             <TextField
@@ -128,24 +128,20 @@ export default ({
                 label={'Distanz (optional)'}
             />
 
-            <FormGroup>
-                <Typography>Muskelgruppen</Typography>
+            <FormGroup sx={{mt: 3}}>
+                <Typography variant={"caption"}>Muskelgruppen</Typography>
                 <MuscleGroupInput
                     value={muscleGroups}
                     onChange={setMuscleGroups}
-                    //isError={isError}
-                    //error={error?.data?.muscle_groups}
                     toggleAll
                 />
             </FormGroup>
 
-            <FormGroup>
-                <Typography>Konditionen</Typography>
+            <FormGroup sx={{mt: 3}}>
+                <Typography variant={"caption"}>Konditionen</Typography>
                 <ConditionInput
                     value={conditions}
                     onChange={setConditions}
-                    //isError={isError}
-                    //error={error?.data?.conditions}
                 />
             </FormGroup>
 

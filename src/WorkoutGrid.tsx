@@ -1,15 +1,17 @@
-import {Discipline, Workout} from './app/types'
+import {Activity, Workout} from './app/types'
 import React, {useMemo} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {DataGrid, GridCellParams, GridColDef, GridFilterModel,} from '@mui/x-data-grid'
 import dayjs from 'dayjs'
-import {useGetDisciplinesQuery, useGetWorkoutsQuery} from './app/api'
+import {useGetActivitiesQuery, useGetWorkoutsQuery} from './app/api'
 import {GridPaginationModel} from '@mui/x-data-grid/models/gridPaginationProps'
 import {Link} from '@mui/material'
 
 import {reverseWorkoutDetail} from './app/reverse'
 
-const NameCell = ({row, value}: GridCellParams<Workout>) => {
+type WorkoutRowModel = Omit<Workout, 'date'> & { date: Date }
+
+const NameCell = ({row, value}: GridCellParams<WorkoutRowModel>) => {
     const navigate = useNavigate()
     return (
         <Link
@@ -20,7 +22,7 @@ const NameCell = ({row, value}: GridCellParams<Workout>) => {
         </Link>
     )
 }
-const getColumns = (disciplines: Discipline[]): GridColDef<Workout>[] => {
+const getColumns = (activities: Activity[]): GridColDef<WorkoutRowModel>[] => {
     return [
         {
             field: 'name',
@@ -36,11 +38,11 @@ const getColumns = (disciplines: Discipline[]): GridColDef<Workout>[] => {
             valueFormatter: (value) => dayjs(value).format('DD.MM.YYYY'),
         },
         {
-            field: 'discipline',
+            field: 'activity',
             headerName: 'Sportart',
             flex: 1,
             type: 'singleSelect',
-            valueOptions: disciplines.map((d) => ({
+            valueOptions: activities.map((d) => ({
                 value: d.id,
                 label: d.name,
             })),
@@ -49,8 +51,8 @@ const getColumns = (disciplines: Discipline[]): GridColDef<Workout>[] => {
 }
 
 export const WorkoutGrid = ({}) => {
-    const {data: disciplines, ...disciplineQueryStatus} =
-        useGetDisciplinesQuery()
+    const {data: activities, ...activityQueryStatus} =
+        useGetActivitiesQuery()
 
     const [paginationModel, setPaginationModel] = React.useState({
         page: 0,
@@ -89,8 +91,8 @@ export const WorkoutGrid = ({}) => {
     }, [data])
 
     const columns = useMemo(() => {
-        return disciplines ? getColumns(disciplines) : []
-    }, [disciplines])
+        return activities ? getColumns(activities) : []
+    }, [activities])
 
     return (
         <DataGrid
@@ -98,7 +100,7 @@ export const WorkoutGrid = ({}) => {
             rows={rows}
             rowCount={data?.count ?? 0}
             density={'compact'}
-            loading={isFetching || disciplineQueryStatus.isLoading}
+            loading={isFetching || activityQueryStatus.isLoading}
             paginationMode={'server'}
             onPaginationModelChange={handlePaginationModelChange}
             paginationModel={paginationModel}
