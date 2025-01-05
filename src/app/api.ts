@@ -21,9 +21,10 @@ export const fitnessApi = createApi({
     endpoints: (builder) => ({
         getWorkouts: builder.query<
             ListResponse<Workout>,
-            | ({
-            page?: number
-        } & Record<string, string>)
+            ({
+                page?: number
+                page_size?: number
+            } & Record<string, string | number>)
             | undefined
         >({
             query: (props) => {

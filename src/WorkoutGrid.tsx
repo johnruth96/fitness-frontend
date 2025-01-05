@@ -33,7 +33,7 @@ const getColumns = (disciplines: Discipline[]): GridColDef<Workout>[] => {
             headerName: 'Datum',
             type: 'date',
             flex: 1,
-            valueFormatter: ({value}) => dayjs(value).format('DD.MM.YYYY'),
+            valueFormatter: (value) => dayjs(value).format('DD.MM.YYYY'),
         },
         {
             field: 'discipline',
@@ -57,7 +57,7 @@ export const WorkoutGrid = ({}) => {
         pageSize: 10,
     })
 
-    const [queryOptions, setQueryOptions] = React.useState({})
+    const [queryOptions, setQueryOptions] = React.useState<Record<string, string>>({})
 
     const onFilterChange = React.useCallback((filterModel: GridFilterModel) => {
         if (filterModel.items.length === 0) {
@@ -79,7 +79,7 @@ export const WorkoutGrid = ({}) => {
 
     const rows = useMemo(() => {
         if (data) {
-            return data.results.map((workout: Workout) => ({
+            return data.results.map(workout => ({
                 ...workout,
                 date: new Date(workout.date),
             }))
