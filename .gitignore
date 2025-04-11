@@ -161,5 +161,4 @@ Temporary Items
 .idea/
 
 # Application
-src/app/config.ts
 build.sh
